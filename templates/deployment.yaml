@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: 
+  name: {{ .Values.name }}
   labels:
     app: {{ .Values.name }}
 spec:
@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: {{ .Values.name }}
-          image: "{{ .Values.repository }}:{{ .Values.tag }}"
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           ports:
             - containerPort: {{ .Values.service.port }}
