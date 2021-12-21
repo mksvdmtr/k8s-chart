@@ -1,18 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.name }}
+  name: {{ include "my-chart.fullname" . }}
   labels:
-    app: {{ .Values.name }}
+    {{- include "my-chart.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Values.name }}
+      {{- include "my-chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        app: {{ .Values.name }}
+        {{- include "my-chart.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: {{ .Values.name }}
